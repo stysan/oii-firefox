@@ -1,5 +1,4 @@
 window.navigation.addEventListener("navigate", (event) => {
-    console.log('location changed!');
     ii();
 })
 
@@ -13,7 +12,6 @@ function ii() {
     if (regex.test(url))
         return
 
-    console.log("Starting ii calculation...")
     setTimeout(function () {
         let pp = 0;
         let playtime = 0;
@@ -52,11 +50,6 @@ function ii() {
         let expectedPlaytime = 1.16e-3 * Math.pow(pp, 1.17);
         let ii = expectedPlaytime / (playtime / 24);
 
-        console.log('PP:', pp);
-        console.log('Playtime:', playtime);
-        console.log('Expected Playtime:', expectedPlaytime);
-        console.log('ii:', ii.toFixed(2));
-
         updateElementStyles();
         updateElementGap('10px');
 
@@ -81,11 +74,7 @@ function ii() {
         outerDiv.appendChild(valueDiv);
 
         parentElement.appendChild(outerDiv)
-    }, 2000)
-
-
-    console.log(parentElement);
-
+    }, 1500)
 }
 
 // Function to update grid-template-columns for elements with the class
@@ -108,3 +97,4 @@ function updateElementGap(newGap) {
         element.style.gap = newGap;
     });
 }
+
