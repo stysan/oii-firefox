@@ -15,7 +15,7 @@
                 "scripts/content.js"
             ],
             "matches": [
-                "https://osu.ppy.sh/users/*"
+                "https://osu.ppy.sh/users/*/osu"
             ],
             "run_at": "document_idle"
         }
