@@ -36,9 +36,9 @@ function ii(additionalPlaytimeHours) {
             }
         });
 
-        // Compute expected playtime and ii
-        let expectedPlaytime = 1.16e-3 * Math.pow(pp, 1.17);
-        let ii = expectedPlaytime / (playtime / 24);
+        // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
+        let expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
+        let ii = expectedPlaytime / playtime;
 
         // Insert ii on website
         updateElementStyles();
