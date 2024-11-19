@@ -6,3 +6,7 @@ A browser extension, that adds ii (improvement indicator), a metric that compare
 32x32	Windows computers often require this size.
 48x48	Displays on the Extensions page.
 128x128	Displays on installation and in the Chrome Web Store.
+
+//TODO
+- update function
+- implement predicting future

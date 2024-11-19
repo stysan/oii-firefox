@@ -1,19 +1,25 @@
 console.log("starting extension...")
-setTimeout(function () {
-    console.log("executing...")
-    ii();
-}, 2000)
+ii(0);
 
 window.navigation.addEventListener("navigate", (event) => {
-    const regex = /\/users\/\d+\/osu$/;
+    console.log("navigate detected");
+    //matches /users/<id>/osu though the /osu is optional and other gamemodes (taiko, mania, fruits) won't match
+    const regex = /\/users\/\d+(\/osu)?$/;
     if (regex.test(event.destination.url))
-        ii();
+        ii(0);
 })
 
-function ii() {
+function ii(additionalPlaytimeHours) {
+    console.log("executing...")
+    /** TODO FIX
+     * 
+     * Timeout of 2 seconds to ensure site is fully loaded. Necessary, bc it's a
+     * SPA and that messes with the document_idle thingy in the manifest, idk what im doing
+     * Yes I know this is a shitty solution and will break when it loads slower than that
+     * */
     setTimeout(function () {
         let pp = 0;
-        let playtime = 0;
+        let playtime = 0 + additionalPlaytimeHours;
 
         const labels = document.querySelectorAll('.value-display__label');
 
@@ -23,7 +29,9 @@ function ii() {
                 const ppElement = label.nextElementSibling.querySelector('.value-display__value div');
                 const playtimeElement = ppElement.parentElement.parentElement.nextElementSibling.querySelector('.value-display__value span');
 
-                playtime = parseInt(playtimeElement.getAttribute('title').split(' ')[0].replace(',', ''));
+                console.log("playtimeelement:" + playtimeElement)
+                playtime += parseInt(playtimeElement.getAttribute('title').split(' ')[0].replace(',', ''));
+                console.log("line 27" + playtime)
                 pp = parseInt(ppElement.textContent.replace(/[,.]/g, ''));
             }
         });
@@ -38,8 +46,16 @@ function ii() {
 
         const parentElement = document.querySelector('.profile-detail__values--grid');
 
+        const iiElementAlreadyExists = document.getElementById('iiElement');
+
+        if (iiElementAlreadyExists) {
+            iiElementAlreadyExists.remove();
+            console.log('Element with ID "iiElement" has been removed.');
+        }
+
         const outerDiv = document.createElement('div');
         outerDiv.className = 'value-display value-display--plain';
+        outerDiv.id = 'iiElement';
 
         const labelDiv = document.createElement('div');
         labelDiv.className = 'value-display__label';
@@ -77,3 +93,12 @@ function updateElementGap(newGap) {
     });
 }
 
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+        sendResponse(request);
+        ii(Number(request.additionalPlaytimeHours));
+    }
+);
