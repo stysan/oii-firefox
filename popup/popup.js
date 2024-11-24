@@ -19,6 +19,33 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await chrome.tabs.sendMessage(tab.id, { goalpp: goalpp.value });
             console.log("sending goalpp...");
             console.log(response);
+            const predictFutureElement = document.getElementById("expectedPlaytimeForGoalpp");
+            predictFutureElement.textContent = "This player needs approximately " + convertHours(response) + " or " + Math.round(response) + " hours of playtime to reach the given pp";
         }
     });
 });
+
+function convertHours(response) {
+    // Calculate the number of days
+    const days = Math.floor(response / 24);
+
+    // Calculate the remaining hours after subtracting the days
+    const remainingHours = Math.floor(response % 24);
+
+    // Calculate the number of minutes if there are any remaining fractions of an hour
+    const minutes = Math.floor((response % 1) * 60);
+
+    // Construct the result string
+    let result = `${days}d ${remainingHours}h`;
+
+    // Add minutes to the string if necessary
+    if (minutes > 0) {
+        result += ` ${minutes}m`;
+    }
+
+    return result;
+}
+
+// Example usage
+let response = 948;
+console.log(convertHours(response)); // Output: "39d 12h"

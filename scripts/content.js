@@ -72,6 +72,29 @@ function ii(additionalPlaytimeHours) {
     }, 2000)
 }
 
+function predictFuture(goalpp) {
+    let pp = 0;
+    let playtime = 0;
+
+    const labels = document.querySelectorAll('.value-display__label');
+
+    labels.forEach(label => {
+        // Searches for pp, then gets playtime by sibling (bc pp is same in every language)
+        if (label.textContent.trim() === 'pp') {
+            const ppElement = label.nextElementSibling.querySelector('.value-display__value div');
+            const playtimeElement = ppElement.parentElement.parentElement.nextElementSibling.querySelector('.value-display__value span');
+
+            console.log("playtimeelement:" + playtimeElement)
+            playtime += parseInt(playtimeElement.getAttribute('title').split(' ')[0].replace(',', ''));
+            console.log("line 27" + playtime)
+            pp = parseInt(ppElement.textContent.replace(/[,.]/g, ''));
+        }
+    });
+
+    //playtime*(goalpp/pp)^1.2
+    return playtime * Math.pow(goalpp / pp, 1.2);
+}
+
 // Function to update grid-template-columns for elements with the class
 function updateElementStyles() {
     // Select all elements with the class 'profile-detail__values--grid'
@@ -98,7 +121,14 @@ chrome.runtime.onMessage.addListener(
         console.log(sender.tab ?
             "from a content script:" + sender.tab.url :
             "from the extension");
-        sendResponse(request);
-        ii(Number(request.additionalPlaytimeHours));
+        if (request.additionalPlaytimeHours) {
+            ii(Number(request.additionalPlaytimeHours));
+            console.log("ii lol");
+            sendResponse(request);
+        }
+        if (request.goalpp) {
+            console.log("goalpp lol");
+            sendResponse(predictFuture(Number(request.goalpp)));
+        }
     }
 );
