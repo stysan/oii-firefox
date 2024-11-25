@@ -41,7 +41,7 @@
  */
 
 console.log("starting extension...")
-ii(0);
+ii(0, true);
 
 window.navigation.addEventListener("navigate", (event) => {
     console.log("navigate detected");
@@ -51,56 +51,68 @@ window.navigation.addEventListener("navigate", (event) => {
         ii(0);
 })
 
-function ii(additionalPlaytimeHours) {
+async function ii(additionalPlaytimeHours, newLoad=false) {
     console.log("executing...")
-    /** TODO FIX
-     * 
-     * Timeout of 2 seconds to ensure site is fully loaded. Necessary, bc it's a
-     * SPA and that messes with the document_idle thingy in the manifest, idk what im doing
-     * Yes I know this is a shitty solution and will break when it loads slower than that
-     * */
-    setTimeout(function () {
-        /**
-         * @type UserData
-         */
-        const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
-        const pp = userData.user.statistics.pp;
-        const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
+    
+    if (!newLoad) {
+        // Use a MutationObserver to wait for the lazy loaded values to get populated
+        let waitForPlaytime = new Promise((resolve, reject) => {
+            var observer = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+                    if (node.querySelectorAll('.js-react--profile-page')) {
+                        observer.disconnect();
+                        resolve();
+                    }
+                }));
+            });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+        await waitForPlaytime;
+    }
 
-        // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
-        const expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
-        const ii = expectedPlaytime / playtime;
+    /**
+     * @type UserData
+     */
+    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
+    const pp = userData.user.statistics.pp;
+    const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
-        // Insert ii on website
-        updateElementStyles();
-        updateElementGap('8px');
+    // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
+    const expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
+    const ii = expectedPlaytime / playtime;
 
-        const parentElement = document.querySelector('.profile-detail__values--grid');
+    // Insert ii on website
+    updateElementStyles();
+    updateElementGap('8px');
 
-        const iiElementAlreadyExists = document.getElementById('iiElement');
+    const parentElement = document.querySelector('.profile-detail__values--grid');
 
-        if (iiElementAlreadyExists) {
-            iiElementAlreadyExists.remove();
-            console.log('Element with ID "iiElement" has been removed.');
-        }
+    const iiElementAlreadyExists = document.getElementById('iiElement');
 
-        const outerDiv = document.createElement('div');
-        outerDiv.className = 'value-display value-display--plain';
-        outerDiv.id = 'iiElement';
+    if (iiElementAlreadyExists) {
+        iiElementAlreadyExists.remove();
+        console.log('Element with ID "iiElement" has been removed.');
+    }
 
-        const labelDiv = document.createElement('div');
-        labelDiv.className = 'value-display__label';
-        labelDiv.textContent = 'ii';
+    const outerDiv = document.createElement('div');
+    outerDiv.className = 'value-display value-display--plain';
+    outerDiv.id = 'iiElement';
 
-        const valueDiv = document.createElement('div');
-        valueDiv.className = 'value-display__value';
-        valueDiv.textContent = ii.toFixed(2) + "x";
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'value-display__label';
+    labelDiv.textContent = 'ii';
 
-        outerDiv.appendChild(labelDiv);
-        outerDiv.appendChild(valueDiv);
+    const valueDiv = document.createElement('div');
+    valueDiv.className = 'value-display__value';
+    valueDiv.textContent = ii.toFixed(2) + "x";
 
-        parentElement.appendChild(outerDiv)
-    }, 2000)
+    outerDiv.appendChild(labelDiv);
+    outerDiv.appendChild(valueDiv);
+
+    parentElement.appendChild(outerDiv)
 }
 
 function predictFuture(goalpp) {
