@@ -76,7 +76,10 @@ async function ii(additionalPlaytimeHours, newLoad=false) {
     /**
      * @type UserData
      */
-    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
+    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value);
+
+    if (userData.current_mode != 'osu') return;
+    
     const pp = userData.user.statistics.pp;
     const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
