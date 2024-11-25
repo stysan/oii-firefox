@@ -2,11 +2,5 @@
 
 A browser extension, that adds ii (improvement indicator, a metric that compares your pp to the average player with your playtime amount) to user profiles on the osu! website.
 
-16x16	Favicon on the extension's pages and context menu.
-32x32	Windows computers often require this size.
-48x48	Displays on the Extensions page.
-128x128	Displays on installation and in the Chrome Web Store.
-
-//TODO
-- update function
-- implement predicting future
+This is currently super broken, most of this code was haphazardly put together and like half of this was done by ChatGPT lol. I recommend waiting until I release this on the Chrome Web Store, but if you insist on wanting it anyways and know what you're doing you can install the extension through this repository. However, if all you care about is your ii value, just use this function
+```ii = (0.0183 * pp^1.2) / playtimeHours```
