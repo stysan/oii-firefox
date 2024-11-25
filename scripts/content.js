@@ -1,3 +1,45 @@
+/**
+ * @typedef User
+ * @property {UserStats} statistics
+ */
+
+/**
+ * @typedef UserStats
+ * @property {number} count_50
+ * @property {number} count_100
+ * @property {number} count_300
+ * @property {number} count_miss
+ * @property {number} country_rank
+ * @property {number} global_rank
+ * @property {Object} grade_counts
+ * @property {number} grade_counts.a
+ * @property {number} grade_counts.s
+ * @property {number} grade_counts.sh
+ * @property {number} grade_counts.ss
+ * @property {number} grade_counts.ssh
+ * @property {number} hit_accuracy
+ * @property {boolean} is_ranked
+ * @property {Object} level
+ * @property {number} level.current
+ * @property {number} level.progress
+ * @property {number} maximum_combo
+ * @property {number} play_count
+ * @property {number} play_time
+ * @property {number} pp
+ * @property {Object} rank
+ * @property {number} rank.country
+ * @property {number} ranked_score
+ * @property {number} replays_watched_by_others
+ * @property {number} total_hits
+ * @property {number} total_score
+ */
+
+/**
+ * @typedef UserData
+ * @property {string} current_mode - The current mode of the user
+ * @property {User} user - The user object
+ */
+
 console.log("starting extension...")
 ii(0);
 
@@ -11,86 +53,52 @@ window.navigation.addEventListener("navigate", (event) => {
 
 function ii(additionalPlaytimeHours) {
     console.log("executing...")
-    /** TODO FIX
-     * 
-     * Timeout of 2 seconds to ensure site is fully loaded. Necessary, bc it's a
-     * SPA and that messes with the document_idle thingy in the manifest, idk what im doing
-     * Yes I know this is a shitty solution and will break when it loads slower than that
-     * */
-    setTimeout(function () {
-        let pp = 0;
-        let playtime = 0 + additionalPlaytimeHours;
+    /**
+     * @type UserData
+     */
+    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
+    const pp = userData.user.statistics.pp;
+    const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
+    
+    // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
+    const expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
+    const ii = expectedPlaytime / playtime;
 
-        const labels = document.querySelectorAll('.value-display__label');
+    // Insert ii on website
+    updateElementStyles();
+    updateElementGap('8px');
 
-        labels.forEach(label => {
-            // Searches for pp, then gets playtime by sibling (bc pp is same in every language)
-            if (label.textContent.trim() === 'pp') {
-                const ppElement = label.nextElementSibling.querySelector('.value-display__value div');
-                const playtimeElement = ppElement.parentElement.parentElement.nextElementSibling.querySelector('.value-display__value span');
+    const parentElement = document.querySelector('.profile-detail__values--grid');
 
-                console.log("playtimeelement:" + playtimeElement)
-                playtime += parseInt(playtimeElement.getAttribute('title').split(' ')[0].replace(',', ''));
-                console.log("line 27" + playtime)
-                pp = parseInt(ppElement.textContent.replace(/[,.]/g, ''));
-            }
-        });
+    const iiElementAlreadyExists = document.getElementById('iiElement');
 
-        // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
-        let expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
-        let ii = expectedPlaytime / playtime;
+    if (iiElementAlreadyExists) {
+        iiElementAlreadyExists.remove();
+        console.log('Element with ID "iiElement" has been removed.');
+    }
 
-        // Insert ii on website
-        updateElementStyles();
-        updateElementGap('8px');
+    const outerDiv = document.createElement('div');
+    outerDiv.className = 'value-display value-display--plain';
+    outerDiv.id = 'iiElement';
 
-        const parentElement = document.querySelector('.profile-detail__values--grid');
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'value-display__label';
+    labelDiv.textContent = 'ii';
 
-        const iiElementAlreadyExists = document.getElementById('iiElement');
+    const valueDiv = document.createElement('div');
+    valueDiv.className = 'value-display__value';
+    valueDiv.textContent = ii.toFixed(2) + "x";
 
-        if (iiElementAlreadyExists) {
-            iiElementAlreadyExists.remove();
-            console.log('Element with ID "iiElement" has been removed.');
-        }
+    outerDiv.appendChild(labelDiv);
+    outerDiv.appendChild(valueDiv);
 
-        const outerDiv = document.createElement('div');
-        outerDiv.className = 'value-display value-display--plain';
-        outerDiv.id = 'iiElement';
-
-        const labelDiv = document.createElement('div');
-        labelDiv.className = 'value-display__label';
-        labelDiv.textContent = 'ii';
-
-        const valueDiv = document.createElement('div');
-        valueDiv.className = 'value-display__value';
-        valueDiv.textContent = ii.toFixed(2) + "x";
-
-        outerDiv.appendChild(labelDiv);
-        outerDiv.appendChild(valueDiv);
-
-        parentElement.appendChild(outerDiv)
-    }, 2000)
+    parentElement.appendChild(outerDiv)
 }
 
 function predictFuture(goalpp) {
-    let pp = 0;
-    let playtime = 0;
-
-    const labels = document.querySelectorAll('.value-display__label');
-
-    labels.forEach(label => {
-        // Searches for pp, then gets playtime by sibling (bc pp is same in every language)
-        if (label.textContent.trim() === 'pp') {
-            const ppElement = label.nextElementSibling.querySelector('.value-display__value div');
-            const playtimeElement = ppElement.parentElement.parentElement.nextElementSibling.querySelector('.value-display__value span');
-
-            console.log("playtimeelement:" + playtimeElement)
-            playtime += parseInt(playtimeElement.getAttribute('title').split(' ')[0].replace(',', ''));
-            console.log("line 27" + playtime)
-            pp = parseInt(ppElement.textContent.replace(/[,.]/g, ''));
-        }
-    });
-
+    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
+    const pp = userData.user.statistics.pp;
+    const playtime = userData.user.statistics.play_time / 3600;
     //playtime*(goalpp/pp)^1.2
     return playtime * Math.pow(goalpp / pp, 1.2);
 }
