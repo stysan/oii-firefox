@@ -7,9 +7,18 @@ some color values to play with from the original osu website
 
 :root {
     --background: #46393F;
-    --header-background:#68263f;
+    --header-background:#8d3355;
     --input-field-background:#786666;
     --label-color:hsl(334, 40%, 90%);
+}
+
+.triangle-container{
+    background-color: rgba(70, 57, 63, 0.5);
+    height: 23em;
+}
+
+.input-container{
+    padding-top: 1em;
 }
 
 body {
@@ -17,12 +26,12 @@ body {
     margin:0;
     padding:0;
     width: 30em;
-    height: 20em;
+    height: 23em;
     border:2px white solid;
-    background-color: var(--background);
+    background-image: url(../images/Triangles.png);
 }
 
-.popup-container{
+.content-container{
     padding: 1em;
 }
 
@@ -93,7 +102,7 @@ input[type="text"]:hover, input[type="text"]:focus {
     color: #ffffff;
     position: absolute;
     right: 1.5em;
-    top: 4.1em;
+    top: 5em;
 }
 
 .mode-selector select:focus {
@@ -104,3 +113,4 @@ input[type="text"]:hover, input[type="text"]:focus {
     background-color: #2a2226;
     color: #ffffff;
 }
+
