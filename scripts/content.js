@@ -51,9 +51,9 @@ window.navigation.addEventListener("navigate", (event) => {
         ii(0);
 })
 
-async function ii(additionalPlaytimeHours, newLoad=false) {
+async function ii(additionalPlaytimeHours, newLoad = false) {
     console.log("executing...")
-    
+
     if (!newLoad) {
         // Use a MutationObserver to wait for the lazy loaded values to get populated
         let waitForPlaytime = new Promise((resolve, reject) => {
@@ -79,7 +79,7 @@ async function ii(additionalPlaytimeHours, newLoad=false) {
     const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value);
 
     if (userData.current_mode != 'osu') return;
-    
+
     const pp = userData.user.statistics.pp;
     const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
@@ -153,7 +153,7 @@ chrome.runtime.onMessage.addListener(
             "from a content script:" + sender.tab.url :
             "from the extension");
         if (request.additionalPlaytimeHours) {
-            ii(Number(request.additionalPlaytimeHours));
+            ii(Number(request.additionalPlaytimeHours), true);
             console.log("ii lol");
             sendResponse(request);
         }
