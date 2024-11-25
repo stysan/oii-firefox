@@ -21,7 +21,8 @@
                 "https://osu.ppy.sh/users/*/taiko",
                 "https://osu.ppy.sh/users/*/fruits",
                 "https://osu.ppy.sh/users/*/mania"
-            ]
+            ],
+            "run_at": "document_idle"
         }
     ]
 }
