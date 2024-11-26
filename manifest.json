@@ -7,7 +7,10 @@
         "default_popup": "popup/popup.html"
     },
     "icons": {
-        "16": "images/oii.png"
+        "16": "images/oii16.png",
+        "32": "images/oii32.png",
+        "48": "images/oii48.png",
+        "128": "images/oii128.png"
     },
     "content_scripts": [
         {
