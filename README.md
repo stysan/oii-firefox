@@ -5,7 +5,7 @@ A browser extention that adds the improvement indicator (ii) to osu! profile. Th
 
 ## General
 
-The ii value is calculated by taking the average ii value of all players with the same playtime amount and multiplying it by your playtime amount. The formula for calculating the ii value is as follows:
+The ii value is calculated by taking the average playtime of all players for a given pp amount and dividing it by your playtime amount. The formula for calculating the ii value is as follows:
 
 $$
 ii = \frac{0.0183 \times pp^{1.2}}{playtime_{hours}} 
