@@ -40,11 +40,9 @@
  * @property {User} user - The user object
  */
 
-console.log("starting extension...")
 ii(0, true);
 
 window.navigation.addEventListener("navigate", (event) => {
-    console.log("navigate detected");
     //matches /users/<id>/osu though the /osu is optional and other gamemodes (taiko, mania, fruits) won't match
     const regex = /\/users\/\d+(\/osu)?$/;
     if (regex.test(event.destination.url))
@@ -52,7 +50,6 @@ window.navigation.addEventListener("navigate", (event) => {
 })
 
 async function ii(additionalPlaytimeHours, newLoad = false) {
-    console.log("executing...")
 
     if (!newLoad) {
         // Use a MutationObserver to wait for the lazy loaded values to get populated
@@ -84,8 +81,7 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
     const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
     // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
-    const expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
-    const ii = expectedPlaytime / playtime;
+    const ii = calculateii(pp, playtime);
 
     // Use a MutationObserver to wait for the lazy loaded values to get populated
     let waitForDetails = new Promise((resolve, reject) => {
@@ -119,7 +115,6 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
 
     if (iiElementAlreadyExists) {
         iiElementAlreadyExists.remove();
-        console.log('Element with ID "iiElement" has been removed.');
     }
 
     const outerDiv = document.createElement('div');
@@ -143,9 +138,11 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
 function predictFuture(goalpp) {
     const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
     const pp = userData.user.statistics.pp;
+    const expectedPlaytime = -3.94 + 0.067 * goalpp + 6.78e-6 * Math.pow(goalpp, 2);
     const playtime = userData.user.statistics.play_time / 3600;
+    const ii = calculateii(pp, playtime);
     //playtime*(goalpp/pp)^1.2
-    return playtime * Math.pow(goalpp / pp, 1.2);
+    return (1 / ii) * expectedPlaytime;
 }
 
 // Function to update grid-template-columns for elements with the class
@@ -171,17 +168,16 @@ function updateElementGap(newGap) {
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        console.log(sender.tab ?
-            "from a content script:" + sender.tab.url :
-            "from the extension");
         if (request.additionalPlaytimeHours) {
             ii(Number(request.additionalPlaytimeHours), true);
-            console.log("ii lol");
             sendResponse(request);
         }
         if (request.goalpp) {
-            console.log("goalpp lol");
             sendResponse(predictFuture(Number(request.goalpp)));
         }
     }
 );
+
+function calculateii(pp, playtime) {
+    return (-3.94 + 0.067 * pp + 6.78e-6 * Math.pow(pp, 2)) / playtime;
+}
