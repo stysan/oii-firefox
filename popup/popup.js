@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (additionalPlaytimeHours.value) {
             const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
             const response = await chrome.tabs.sendMessage(tab.id, { additionalPlaytimeHours: additionalPlaytimeHours.value });
-            console.log("sending playtime...");
-            console.log(response);
         }
     });
 
@@ -17,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (goalpp.value) {
             const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
             const response = await chrome.tabs.sendMessage(tab.id, { goalpp: goalpp.value });
-            console.log("sending goalpp...");
-            console.log(response);
             const predictFutureElement = document.getElementById("expectedPlaytimeForGoalpp");
             predictFutureElement.textContent = "This player needs approximately " + convertHours(response) + " or " + Math.round(response) + " hours of playtime to reach the given pp";
         }
@@ -45,7 +41,3 @@ function convertHours(response) {
 
     return result;
 }
-
-// Example usage
-let response = 948;
-console.log(convertHours(response)); // Output: "39d 12h"
