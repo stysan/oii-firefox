@@ -1,4 +1,4 @@
-# osu!ii - Improvement Indicator
+# oii - osu! improvement indicator
 
 A browser extension, that adds ii (improvement indicator, a metric that compares your pp to the average player with your playtime amount) to user profiles on the osu! website. This extension isn't stable yet and it is recommended to wait for the official release in the Chrome Web Store.
 
