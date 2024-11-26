@@ -35,4 +35,4 @@ If you have any questions, feel free to join my discord server [here](https://di
 3. Enable developer mode (top right)
 4. Click "Load unpacked" and select the osu!ii folder from step 1
 
-You can now visit osu! profiles and see the ii value next to your total playtime.
+You can now visit osu! profiles and see the ii value next to their total playtime.
