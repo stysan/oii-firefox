@@ -18,12 +18,7 @@
                 "scripts/content.js"
             ],
             "matches": [
-                "https://osu.ppy.sh/users/*"
-            ],
-            "exclude_matches": [
-                "https://osu.ppy.sh/users/*/taiko",
-                "https://osu.ppy.sh/users/*/fruits",
-                "https://osu.ppy.sh/users/*/mania"
+                "https://osu.ppy.sh/*"
             ],
             "run_at": "document_idle"
         }
