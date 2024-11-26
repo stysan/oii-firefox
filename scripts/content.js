@@ -51,12 +51,12 @@ window.navigation.addEventListener("navigate", (event) => {
         ii(0);
 })
 
-async function ii(additionalPlaytimeHours, newLoad=false) {
+async function ii(additionalPlaytimeHours, newLoad = false) {
     console.log("executing...")
-    
+
     if (!newLoad) {
         // Use a MutationObserver to wait for the lazy loaded values to get populated
-        let waitForPlaytime = new Promise((resolve, reject) => {
+        let waitForData = new Promise((resolve, reject) => {
             var observer = new MutationObserver((mutations) => {
                 mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
                     if (node.querySelectorAll('.js-react--profile-page')) {
@@ -70,19 +70,44 @@ async function ii(additionalPlaytimeHours, newLoad=false) {
                 subtree: true
             });
         });
-        await waitForPlaytime;
+        await waitForData;
     }
 
     /**
      * @type UserData
      */
-    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
+    const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value);
+
+    if (userData.current_mode != 'osu') return;
+
     const pp = userData.user.statistics.pp;
     const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
     // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
     const expectedPlaytime = 0.0183 * Math.pow(pp, 1.2);
     const ii = expectedPlaytime / playtime;
+
+    // Use a MutationObserver to wait for the lazy loaded values to get populated
+    let waitForDetails = new Promise((resolve, reject) => {
+        // Check if profile values already exist
+        if (document.querySelectorAll('div.value-display--plain').length >= 3) {
+            resolve();
+        } else {
+            var observer = new MutationObserver(_ => {
+                // Check if profile values div were created
+                if (document.querySelectorAll('div.value-display--plain').length >= 3) {
+                    // Stop the observer and resolve
+                    observer.disconnect();
+                    resolve();
+                }
+            });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+    });
+    await waitForDetails;
 
     // Insert ii on website
     updateElementStyles();
@@ -150,7 +175,7 @@ chrome.runtime.onMessage.addListener(
             "from a content script:" + sender.tab.url :
             "from the extension");
         if (request.additionalPlaytimeHours) {
-            ii(Number(request.additionalPlaytimeHours));
+            ii(Number(request.additionalPlaytimeHours), true);
             console.log("ii lol");
             sendResponse(request);
         }
