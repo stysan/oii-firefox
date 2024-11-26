@@ -26,7 +26,7 @@ $$
 
 For more information, you can watch this video [video](https://www.youtube.com/watch?v=F8qqWkmtCG0). The data used to create the function can be found here [here](https://docs.google.com/spreadsheets/d/1uiXBByPjOqOvEGd0QbGaDst6KkuVsww2Q0ropcMlTVY).
 
-If you have any questions, feel free to join my discord server [here](https://discord.com/invite/cT6vzbvpe8).
+If you have any questions or want to contribute, feel free to join my discord server [here](https://discord.com/invite/cT6vzbvpe8).
 
 ## How to use (experimental)
 
