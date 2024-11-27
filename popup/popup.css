@@ -138,13 +138,14 @@ input[type="text"]:hover, input[type="text"]:focus {
         right: 36%;
     } 
 
-    .tooltip.tooltip-goalpp > .tooltiptext{
-        height: 2em;
+    .tooltip.tooltip-playtime > .tooltiptext{
+        align-content: center;
     }
 
     .tooltip.tooltip-goalpp > .tooltiptext{
-        height: 1em;
+        height: 2em;
         width: 15.8em;
+        align-content: center;
     }
 
     .tooltip .tooltiptext {
@@ -159,7 +160,7 @@ input[type="text"]:hover, input[type="text"]:focus {
         bottom: 120%;
         left: 50%;
         transform: translateX(-50%);
-        height: 3em;
+        height: 4em;
         width: 15em;
     }
 
