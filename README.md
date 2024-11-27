@@ -14,13 +14,13 @@ $$
 The expected playtime describes the playtime the average player would need to reach the given pp. The function for this was modelled off of a trendline showing the relationship between playtime and pp on a dataset with a sample of 20.000 players.
 
 $$
-expected playtime = 0.0183 \times pp^{1.2}
+expected playtime = -3.94 + 0.067 \cdot pp + 6.78 \times 10^{-6} \cdot pp^2
 $$
 
 Thus the formula for calculating the ii value is as follows:
 
 $$
-ii = \frac{0.0183 \times pp^{1.2}}{playtime_{hours}} 
+ii = \frac{-3.94 + 0.067 \cdot pp + 6.78 \times 10^{-6} \cdot pp^2}{playtime_{hours}} 
 $$
 
 
