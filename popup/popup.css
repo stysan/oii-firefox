@@ -176,10 +176,10 @@ input[type="text"]:hover, input[type="text"]:focus {
 }
 
 label.goalpp-label{
-    width: 4em;
+    width: 5em;
 }
 label.playtime-label{
-    width: 9em;
+    width: 10em;
 }
 
 label:hover .tooltip {
