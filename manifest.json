@@ -5,9 +5,6 @@
     "permissions": [
         "tabs"
     ],
-    "host_permissions": [
-        "https://osu.ppy.sh/users/*"
-    ],
     "version": "0.1",
     "action": {
         "default_popup": "popup/popup.html"
