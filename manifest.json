@@ -2,6 +2,12 @@
     "manifest_version": 3,
     "name": "oii",
     "description": "Adds ii (improvement indicator) metric to user profiles on the osu! website",
+    "permissions": [
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://osu.ppy.sh/users/*"
+    ],
     "version": "0.1",
     "action": {
         "default_popup": "popup/popup.html"
