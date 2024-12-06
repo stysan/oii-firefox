@@ -44,7 +44,7 @@ ii(0, true);
 
 window.navigation.addEventListener("navigate", (event) => {
     //matches /users/<id>/osu though the /osu is optional and other gamemodes (taiko, mania, fruits) won't match
-    const regex = /\/users\/\d+(\/osu)?$/;
+    const regex = /\/users\/\d+/;
     if (regex.test(event.destination.url))
         ii(0);
 })
@@ -75,13 +75,15 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
      */
     const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value);
 
-    if (userData.current_mode != 'osu') return;
+    //if (userData.current_mode != 'osu') return;
+    console.log("asdfjasdf")
+    console.log(userData.current_mode);
 
     const pp = userData.user.statistics.pp;
     const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
     // Compute expected playtime and ii, prerework: 1.16e-3 * Math.pow(pp, 1.17) and playtime/24
-    const ii = calculateii(pp, playtime);
+    const ii = calculateExpectedPlaytime(pp, userData.current_mode) / playtime;
 
     // Use a MutationObserver to wait for the lazy loaded values to get populated
     let waitForDetails = new Promise((resolve, reject) => {
@@ -138,9 +140,9 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
 function predictFuture(goalpp) {
     const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value)
     const pp = userData.user.statistics.pp;
-    const expectedPlaytime = -3.94 + 0.067 * goalpp + 6.78e-6 * Math.pow(goalpp, 2);
+    const expectedPlaytime = calculateExpectedPlaytime(goalpp, userData.current_mode);
     const playtime = userData.user.statistics.play_time / 3600;
-    const ii = calculateii(pp, playtime);
+    const ii = calculateExpectedPlaytime(pp, userData.current_mode) / playtime;
     //playtime*(goalpp/pp)^1.2
     return (1 / ii) * expectedPlaytime;
 }
@@ -178,6 +180,19 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-function calculateii(pp, playtime) {
-    return (-3.94 + 0.067 * pp + 6.78e-6 * Math.pow(pp, 2)) / playtime;
+function calculateExpectedPlaytime(pp, mode) {
+    switch (mode) {
+        case "osu":
+            return -3.94 + 0.067 * pp + 6.78e-6 * Math.pow(pp, 2);
+            break;
+        case "taiko":
+            return -1.37 + 0.015 * pp + 3.1e-6 * Math.pow(pp, 2);
+            break;
+        case "mania":
+            return 3.05 + 0.0223 * pp + 2.44e-06 * Math.pow(pp, 2);
+            break;
+        case "fruits":
+            return -3.53 + 0.048 * pp + 2.68e-06 * Math.pow(pp, 2);
+            break;
+    }
 }
