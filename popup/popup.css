@@ -7,40 +7,41 @@ some color values to play with from the original osu website
 
 :root {
     --background: #46393F;
-    --header-background:#8d3355;
-    --input-field-background:#786666;
-    --label-color:hsl(334, 40%, 90%);
+    --header-background: #8d3355;
+    --input-field-background: #786666;
+    --label-color: hsl(334, 40%, 90%);
 }
 
-.triangle-container{
+.triangle-container {
     background-color: rgba(70, 57, 63, 0.5);
     height: 23em;
 }
 
-.input-container{
+.input-container {
     padding-top: 1em;
 }
 
 body {
-    font-family: "Exo 2", Arial, sans-serif; 
-    margin:0;
-    padding:0;
+    font-family: "Exo 2", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     width: 30em;
     height: 23em;
-    border:2px white solid;
+    border: 2px white solid;
     background-image: url(../images/Triangles.png);
 }
 
-.content-container{
+.content-container {
     padding: 1em;
 }
 
-.mode-selector, .calculator{
+.mode-selector,
+.calculator {
     display: flex;
 }
 
-.calculator{
-    margin-top:2em;
+.calculator {
+    margin-top: 2em;
     gap: 1em;
 }
 
@@ -56,7 +57,7 @@ input[type="text"] {
     padding: 10px;
     border: none;
     border-radius: 10px;
-    background-color: var(--input-field-background); 
+    background-color: var(--input-field-background);
     color: #f0f0f0;
     font-size: 14px;
 }
@@ -73,7 +74,7 @@ input[type="text"] {
     background: var(--header-background);
     align-content: center;
     box-shadow: black 0px 0px 3px 0px;
-    margin-bottom:0.5em;
+    margin-bottom: 0.5em;
 }
 
 #expectedPlaytimeForGoalpp {
@@ -87,34 +88,11 @@ input[type="text"] {
     color: #ffffff;
 }
 
-input[type="text"]:hover, input[type="text"]:focus {
+input[type="text"]:hover,
+input[type="text"]:focus {
     outline: none;
     background-color: #917c7c;
 }
-
-.mode-selector select {
-    width: 50%;
-    padding: 10px;
-    font-size: 14px;
-    border: var(--background) 1px solid;
-    border-radius: 10px;
-    background-color: var(--input-field-background); 
-    color: #ffffff;
-    position: absolute;
-    right: 1.5em;
-    top: 5em;
-}
-
-.mode-selector select:focus {
-    outline: none;
-}
-
-.mode-selector option {
-    background-color: #2a2226;
-    color: #ffffff;
-}
-
-
 
 
 /* Tooltip */
@@ -128,47 +106,47 @@ input[type="text"]:hover, input[type="text"]:focus {
     pointer-events: none;
 }
 
-    .tooltip.tooltip-playtime{
-        top: 47.5%;
-        right: 69.3%;
-    } 
+.tooltip.tooltip-playtime {
+    top: 47.5%;
+    right: 69.3%;
+}
 
-    .tooltip.tooltip-goalpp{
-        top: 47.5%;
-        right: 36%;
-    } 
+.tooltip.tooltip-goalpp {
+    top: 47.5%;
+    right: 36%;
+}
 
-    .tooltip.tooltip-playtime > .tooltiptext{
-        align-content: center;
-    }
+.tooltip.tooltip-playtime>.tooltiptext {
+    align-content: center;
+}
 
-    .tooltip.tooltip-goalpp > .tooltiptext{
-        height: 2em;
-        width: 15.8em;
-        align-content: center;
-    }
+.tooltip.tooltip-goalpp>.tooltiptext {
+    height: 2em;
+    width: 15.8em;
+    align-content: center;
+}
 
-    .tooltip .tooltiptext {
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        padding: 0.5em 0 1em 0em;
-        border-radius: 6px;
-        position: absolute;
-        z-index: 1;
-        font-size: 1.4em;
-        bottom: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 4em;
-        width: 15em;
-    }
+.tooltip .tooltiptext {
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 0.5em 0 1em 0em;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    font-size: 1.4em;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 4em;
+    width: 15em;
+}
 
 
 .tooltip .tooltiptext::after {
     content: '';
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
@@ -176,10 +154,11 @@ input[type="text"]:hover, input[type="text"]:focus {
     border-color: #555 transparent transparent transparent;
 }
 
-label.goalpp-label{
+label.goalpp-label {
     width: 5em;
 }
-label.playtime-label{
+
+label.playtime-label {
     width: 10em;
 }
 
@@ -187,4 +166,3 @@ label:hover .tooltip {
     visibility: visible;
     opacity: 1;
 }
-

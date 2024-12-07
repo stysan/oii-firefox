@@ -75,10 +75,6 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
      */
     const userData = JSON.parse(document.body.querySelector('.js-react--profile-page').attributes.getNamedItem('data-initial-data').value);
 
-    //if (userData.current_mode != 'osu') return;
-    console.log("asdfjasdf")
-    console.log(userData.current_mode);
-
     const pp = userData.user.statistics.pp;
     const playtime = userData.user.statistics.play_time / 3600 + additionalPlaytimeHours;
 
@@ -184,15 +180,11 @@ function calculateExpectedPlaytime(pp, mode) {
     switch (mode) {
         case "osu":
             return -3.94 + 0.067 * pp + 6.78e-6 * Math.pow(pp, 2);
-            break;
         case "taiko":
             return -1.37 + 0.015 * pp + 3.1e-6 * Math.pow(pp, 2);
-            break;
         case "mania":
             return 3.05 + 0.0223 * pp + 2.44e-06 * Math.pow(pp, 2);
-            break;
         case "fruits":
             return -3.53 + 0.048 * pp + 2.68e-06 * Math.pow(pp, 2);
-            break;
     }
 }
