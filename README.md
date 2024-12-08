@@ -1,6 +1,6 @@
 # oii - osu! improvement indicator
 
-A browser extension, that adds ii (improvement indicator, a metric that compares your pp to the average player with your playtime amount) to user profiles on the osu! website. This extension isn't stable yet and it is recommended to wait for the official release in the Chrome Web Store.
+A browser extension, that adds ii (improvement indicator, a metric that compares your pp to the average player with your playtime amount) to user profiles on the osu! website.
 
 
 ## General
@@ -11,7 +11,7 @@ $$
 ii = \frac{expected playtime}{actual playtime} 
 $$
 
-The expected playtime describes the playtime the average player would need to reach the given pp. The function for this was modelled off of a trendline showing the relationship between playtime and pp on a dataset with a sample of 20.000 players.
+The expected playtime describes the playtime the average player would need to reach the given pp. The function for this was modelled off of a trendline showing the relationship between playtime and pp on a dataset with a sample of 10.000 players.
 
 $$
 expected playtime = -3.94 + 0.067 \cdot pp + 6.78 \times 10^{-6} \cdot pp^2
@@ -24,16 +24,27 @@ ii = \frac{-3.94 + 0.067 \cdot pp + 6.78 \times 10^{-6} \cdot pp^2}{playtime_{ho
 $$
 
 
-For more information, you can watch this [video](https://www.youtube.com/watch?v=F8qqWkmtCG0). The data used to create the function can be found [here](https://docs.google.com/spreadsheets/d/1uiXBByPjOqOvEGd0QbGaDst6KkuVsww2Q0ropcMlTVY).
+For more information, you can watch [this](https://www.youtube.com/watch?v=F8qqWkmtCG0) video. The data used to create the function can be found [here](https://docs.google.com/spreadsheets/d/1uiXBByPjOqOvEGd0QbGaDst6KkuVsww2Q0ropcMlTVY).
 
-If you have any questions or want to contribute, feel free to join my discord server [here](https://discord.com/invite/cT6vzbvpe8).
+If you have any questions or want to contribute, feel free to join my [discord server](https://discord.com/invite/cT6vzbvpe8).
 
-## How to install (experimental)
+## How to install
+
+This extension is currently only available for chrome and there are two ways to install it:
+
+### Via Chrome Webstore
+
+For the latest stable release and automatic updates, it is recommended to install the extension [here](https://chromewebstore.google.com/detail/oii/dmodoodhamgjfnfnokgflekfjgjagpna).
+
+### Via GitHub
+
+Alternatively, to get the latest (though not necessarily stable) build, install the extension through these steps. Keep in mind, that the extension will not update automatically this way:
+
 1. Download and unzip the repository
 2. Navigate to the [extensions](chrome://extensions/) in your chrome browser
 3. Enable developer mode (top right)
 4. Click "Load unpacked" and select the osu!ii folder from step 1
 
-Alternatively check out [this](https://www.youtube.com/watch?v=nmSpWQJuTaQ) video tutorial for a more detailed explanation.
+For a more detailed explanation check out [this](https://www.youtube.com/watch?v=nmSpWQJuTaQ) video tutorial.
 
 
