@@ -125,7 +125,7 @@ async function ii(additionalPlaytimeHours, newLoad = false) {
 
     const valueDiv = document.createElement('div');
     valueDiv.className = 'value-display__value';
-    valueDiv.textContent = ii.toFixed(2) + "x";
+    valueDiv.textContent = ii > 0 ? ii.toFixed(2) + "x" : "-";
 
     outerDiv.appendChild(labelDiv);
     outerDiv.appendChild(valueDiv);
