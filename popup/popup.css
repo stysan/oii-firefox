@@ -14,11 +14,7 @@ some color values to play with from the original osu website
 
 .triangle-container {
     background-color: rgba(70, 57, 63, 0.5);
-    height: 23em;
-}
-
-.input-container {
-    padding-top: 1em;
+    height: 19em;
 }
 
 body {
@@ -26,7 +22,7 @@ body {
     margin: 0;
     padding: 0;
     width: 30em;
-    height: 23em;
+    height: 19em;
     border: 2px white solid;
     background-image: url(../images/Triangles.png);
 }
@@ -107,12 +103,12 @@ input[type="text"]:focus {
 }
 
 .tooltip.tooltip-playtime {
-    top: 47.5%;
+    top: 35.5%;
     right: 69.3%;
 }
 
 .tooltip.tooltip-goalpp {
-    top: 47.5%;
+    top: 35.5%;
     right: 36%;
 }
 
