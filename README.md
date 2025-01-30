@@ -32,13 +32,13 @@ If you have any questions or want to contribute, feel free to join my [discord s
 
 This extension is currently only available for chrome and there are two ways to install it:
 
-### Via Chrome Webstore
+### For Chrome
 
-For the latest stable release and automatic updates, it is recommended to install the extension [here](https://chromewebstore.google.com/detail/oii/dmodoodhamgjfnfnokgflekfjgjagpna).
+This is not my project - I just ported it to Firefox. To install it on Chrome, go [here](https://github.com/ferryhmm/oii).
 
-### Via GitHub
+### For Firefox (Github)
 
-Alternatively, to get the latest (though not necessarily stable) build, install the extension through these steps. Keep in mind, that the extension will not update automatically this way:
+Warning: The extension will not auto-update.
 
 1. Download and unzip the repository
 2. Navigate to the [extensions](chrome://extensions/) in your chrome browser
